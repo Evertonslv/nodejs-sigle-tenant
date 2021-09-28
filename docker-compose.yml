@@ -1,0 +1,71 @@
+version: "3"
+services:
+  poc-officer-api:
+    image: poc-officer/api
+    container_name: poc-officer-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile.api
+    ports:
+      - 3000:3000
+    volumes:
+      - ./api:/opt/project
+    links:
+      - poc-mysql1
+      - poc-mysql2
+      - poc-mysql3
+    depends_on:
+      - poc-mysql1
+      - poc-mysql2
+      - poc-mysql3
+
+  poc-mysql1:
+    image: mysql:5.6
+    container_name: poc-officer-mysql1
+    restart: always
+    tty: true
+    ports:
+      - 3311:3306
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=officer
+      - MYSQL_PASSWORD=mfs80
+      - MYSQL_DATABASE=rtdpj
+    volumes:
+      - ./.docker/mysql/mysql1-data:/var/lib/mysql
+      - ./.docker/mysql/mysql-init:/docker-entrypoint-initdb.d/
+
+  poc-mysql2:
+    image: mysql:5.6
+    container_name: poc-officer-mysql2
+    restart: always
+    tty: true
+    ports:
+      - 3312:3306
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=officer
+      - MYSQL_PASSWORD=mfs80
+      - MYSQL_DATABASE=rtdpj
+    volumes:
+      - ./.docker/mysql/mysql2-data:/var/lib/mysql
+      - ./.docker/mysql/mysql-init:/docker-entrypoint-initdb.d
+
+  poc-mysql3:
+    image: mysql:5.6
+    container_name: poc-officer-mysql3
+    restart: always
+    tty: true
+    ports:
+      - 3313:3306
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=officer
+      - MYSQL_PASSWORD=mfs80
+      - MYSQL_DATABASE=rtdpj
+    volumes:
+      - ./.docker/mysql/mysql3-data:/var/lib/mysql
+      - ./.docker/mysql/mysql-init:/docker-entrypoint-initdb.d

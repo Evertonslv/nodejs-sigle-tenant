@@ -1,0 +1,12 @@
+FROM node:14-alpine
+
+WORKDIR /opt/project
+
+COPY api/package*.json ./
+RUN npm install
+
+RUN npm install -g @nestjs/cli
+
+RUN apk add --no-cache bash
+
+CMD [ -d "node_modules" ] && npm run start:dev || npm ci -q && npm run start:dev

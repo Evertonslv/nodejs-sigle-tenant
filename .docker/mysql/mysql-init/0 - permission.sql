@@ -1,0 +1,3 @@
+GRANT ALL PRIVILEGES on *.* to 'officer'@'%' IDENTIFIED BY 'mfs80';
+
+FLUSH PRIVILEGES;
